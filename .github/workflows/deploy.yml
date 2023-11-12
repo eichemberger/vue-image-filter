@@ -13,7 +13,7 @@ jobs:
       contents: read
     env:
       ROLE: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/CICDS3Portfolio
-      BUCKET: vue-image-filter
+      BUCKET: portfolio.eichemberger.com
     steps:
       - uses: actions/checkout@v4
 
@@ -34,7 +34,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to AWS S3
-        run: aws s3 sync ./dist s3://${{ env.BUCKET }} --delete
+        run: aws s3 sync ./dist s3://${{ env.BUCKET }}/vue-image-filter --delete
 
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DIST_ID }} --paths /vue-image-filter/*
