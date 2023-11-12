@@ -1,0 +1,40 @@
+name: deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  pipeline:
+    name: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      ROLE: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/CICDS3Portfolio
+      BUCKET: vue-image-filter
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE }}
+          aws-region: us-east-1
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: get dependencies
+        run: npm ci
+
+      - name: build app
+        run: npm run build
+
+      - name: Deploy to AWS S3
+        run: aws s3 sync ./dist s3://${{ env.BUCKET }} --delete
+
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DIST_ID }} --paths /vue-image-filter/*
