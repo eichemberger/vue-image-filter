@@ -28,7 +28,7 @@
 import { useImageStore } from "@/stores/image";
 import useReader from "@/composables/use-reader";
 import useCanvas from "@/composables/use-canvas";
-const { canvasEl, loadImage } = useCanvas()
+const { canvasEl, loadImage, drawOriginalImage } = useCanvas()
 
 const filters = ["oceanic", "vintage", "rosetint"];
 
@@ -41,7 +41,7 @@ const { reader } = useReader(store.file, () => {
 });
 
 store.$subscribe(() => {
-  console.log('Subscribed')
+  drawOriginalImage();
 });
 
 </script>
