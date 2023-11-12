@@ -8,7 +8,7 @@ interface ImageState {
 export const useImageStore = defineStore("image", {
     state: (): ImageState => ({
         file: null,
-        filter: "",
+        filter: '',
     }),
     actions: {
         upload(e: DragEvent) {

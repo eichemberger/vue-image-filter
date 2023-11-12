@@ -3,7 +3,8 @@
     <canvas width="448" height="448" ref="canvasEl"></canvas>
     <div class="text-white text-xl mt-4">
       <div class="flex justify-center gap-4">
-        <button type="button" class="bg-pink-600 py-4 w-full"
+        <button type="button"
+          class="py-4 w-full"
           v-for="(filter, index) in filters"
           :key="index"
           :class="{
@@ -37,6 +38,10 @@ const { reader } = useReader(store.file, () => {
 
   const dataUrl = reader.result.toString();
   loadImage(dataUrl);
+});
+
+store.$subscribe(() => {
+  console.log('Subscribed')
 });
 
 </script>
