@@ -17,7 +17,11 @@
         </button>
 
       </div>
-      <a class="bg-indigo-700 py-4 block w-full mt-2 text-center">
+      <a
+          class="bg-indigo-700 py-4 block w-full mt-2 text-center"
+          :href="canvasImgUrl"
+          download="image.png"
+      >
         Download
       </a>
     </div>
@@ -28,7 +32,7 @@
 import { useImageStore } from "@/stores/image";
 import useReader from "@/composables/use-reader";
 import useCanvas from "@/composables/use-canvas";
-const { canvasEl, loadImage, drawOriginalImage, filterImage } = useCanvas()
+const { canvasEl, loadImage, drawOriginalImage, filterImage, canvasImgUrl } = useCanvas()
 
 const filters = ["oceanic", "vintage", "rosetint"];
 
